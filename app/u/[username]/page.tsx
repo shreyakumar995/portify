@@ -1,6 +1,10 @@
 import { fetchUser, fetchRepos, getTopRepos } from "@/lib/github";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import HeroSection from "@/components/HeroSection";
+import ProjectsGrid from "@/components/ProjectsGrid";
+import LanguageBar from "@/components/LanguageBar";
+import { getLanguageStats } from "@/lib/github";
 
 type Props = {
   params: Promise<{ username: string }>;
@@ -26,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PortfolioPage({ params }: Props) {
   const {username} = await params;
-  let user, topRepos;
+  let user, topRepos, languageStats;
   try {
     const [userData, repoData] = await Promise.all([
       fetchUser(username),
@@ -34,6 +38,7 @@ export default async function PortfolioPage({ params }: Props) {
     ]);
     user = userData;
     topRepos = getTopRepos(repoData);
+    languageStats = getLanguageStats(topRepos);
   } catch (err: any) {
     if (err.message === 'User not found') notFound();
     throw err;
@@ -41,7 +46,9 @@ export default async function PortfolioPage({ params }: Props) {
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-12">
-
+      <HeroSection user={user} />
+      <ProjectsGrid repos={topRepos} />
+      <LanguageBar stats={languageStats} />
       <div className="flex gap-6 items-start mb-10">
         <img
           src={user.avatar_url}
