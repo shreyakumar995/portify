@@ -13,6 +13,12 @@ const LANG_COLORS: Record<string, string> = {
   Shell: "#89E051",
   "C++": "#F34B7D",
   C: "#555555",
+  Swift:         "#F05138",
+  Kotlin:        "#7F52FF",
+  Ruby:          "#CC342D",
+  PHP:           "#777BB4",
+  Dart:          "#00B4AB",
+  "Objective-C": "#438EFF",
 };
 
 type Props = {
@@ -23,16 +29,17 @@ type Props = {
 export default function LanguageBar({ stats, theme }: Props) {
   if (stats.length === 0) return null;
 
-  const total = stats.reduce((sum, s) => sum + s.count, 0);
+  const top=stats.slice(0, 6);
+  const total = top.reduce((sum, s) => sum + s.count, 0);
 
   return (
     <section className="mb-10">
-      <h2 className={`text-lg font-semibold mb-3 ${theme.heading}`}>
+      <h2 className={`text-base font-semibold mb-3 ${theme.heading}`}>
         Languages
       </h2>
 
-      <div className="flex rounded-full overflow-hidden h-3 mb-3">
-        {stats.map(({ language, count }) => (
+      <div className="flex rounded-full overflow-hidden h-2.5 mb-3 gap-px">
+        {top.map(({ language, count }) => (
           <div
             key={language}
             style={{
@@ -44,16 +51,16 @@ export default function LanguageBar({ stats, theme }: Props) {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-x-4 gap-y-1">
-        {stats.map(({ language, count }) => (
+      <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+        {top.map(({ language, count }) => (
           <div key={language} className="flex items-center gap-1.5">
             <span
-              className="w-2.5 h-2.5 rounded-full shrink-0"
+              className="w-2 h-2 rounded-full shrink-0"
               style={{ backgroundColor: LANG_COLORS[language] ?? "#888" }}
             />
             <span className={`text-xs ${theme.body}`}>
               {language}{" "}
-              <span className="opacity-70">
+              <span className={`text-xs opacity-80 ${theme.body}`}>
                 {Math.round((count / total) * 100)}%
               </span>
             </span>

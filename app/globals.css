@@ -41,3 +41,41 @@ body {
     box-shadow: none !important;
   }
 }
+/* ── PDF / Print styles ─────────────────────── */
+@media print {
+  /* Hide everything we don't want in the PDF */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Force white background always */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Keep language dot colours in PDF */
+  [style*="background-color"] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* No page break inside a card */
+  .rounded-xl {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Remove border on page */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Make links show their URL in PDF */
+  a[href]::after {
+    content: none !important;
+  }
+}

@@ -13,6 +13,9 @@ const LANG_COLORS: Record<string, string> = {
   Shell: "#89E051",
   "C++": "#F34B7D",
   C: "#555555",
+  Swift:         "#F05138",
+  Kotlin:        "#7F52FF",
+  Ruby:          "#CC342D",
 };
 
 type Props = {
@@ -27,14 +30,16 @@ export default function ProjectCard({ repo, theme }: Props) {
 
   return (
     <div
-      className={`rounded-xl p-5 transition-all duration-200 flex flex-col gap-3 ${theme.card}`}
+      className={`rounded-xl p-5 flex flex-col gap-3 transition-all duration-200 ${theme.card}`}
     >
-      <div className="flex justify-between items-start">
-        <h3 className={`font-medium text-sm ${theme.heading}`}>{repo.name}</h3>
-        <span className={`text-xs shrink-0 ml-2 ${theme.body}`}>
-          ⭐ {repo.stargazers_count}
+      {/* ── Header ── */}
+      <div className="flex justify-between items-start gap-2">
+        <h3 className={`font-semibold text-sm leading-snug ${theme.heading}`}>{repo.name}</h3>
+        <span className={`text-xs shrink-0 flex items-center gap-1 ${theme.body}`}>
+          ⭐ {repo.stargazers_count.toLocaleString()}
         </span>
       </div>
+      {/* ── Description ── */}
       <p className={`text-xs line-clamp-2 leading-relaxed flex-1 ${theme.body}`}>
         {repo.description ?? "No description provided"}
       </p>
@@ -48,22 +53,34 @@ export default function ProjectCard({ repo, theme }: Props) {
               {topic}
             </span>
           ))}
+          {repo.topics.length > 3 && (
+            <span className={`text-xs px-2 py-0.5 ${theme.body} opacity-50`}>
+            +{repo.topics.length - 3}
+          </span>
+          )}
         </div>
       )}
+      {/* ── Footer ── */}
       <div
         className={`flex justify-between items-center mt-auto pt-2 border-t ${theme.border}`}
       >
-        {repo.language ? (
+         <div className="flex items-center gap-3">
+        {repo.language && (
           <div className="flex items-center gap-1.5">
             <span
-              className="w-2.5 h-2.5 rounded-full"
+              className="w-2 h-2 rounded-full shrink-0"
               style={{ backgroundColor: langColor! }}
             />
             <span className={`text-xs ${theme.body}`}>{repo.language}</span>
           </div>
-        ) : (
-          <span />
-        )}
+        )} 
+        {repo.forks_count > 0 && (
+            <span className={`text-xs ${theme.body} opacity-60`}>
+              🍴 {repo.forks_count.toLocaleString()}
+            </span>
+          )}
+        </div>
+          
         <div className="flex gap-3">
           <a
             href={repo.html_url}
@@ -78,7 +95,7 @@ export default function ProjectCard({ repo, theme }: Props) {
               href={repo.homepage}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-blue-500 hover:underline"
+              className="text-xs text-blue-500 hover:text-blue-400 transition-colors"
             >
               Live ↗
             </a>
