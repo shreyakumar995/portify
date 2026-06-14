@@ -67,3 +67,23 @@ export function getLanguageStats(repos: GithubRepo[]): LanguageStat[] {
     .map(([language, count]) => ({ language, count }))
     .sort((a, b) => b.count - a.count);
 }
+export interface TopicStat{
+  topic: string;
+  count: number;
+}
+
+export function getTopicStats(repos: GithubRepo[], limit=12): TopicStat[] {
+  const counts = new Map<string, number>();
+
+  for (const repo of repos) {
+    if(repo.fork) continue;
+    for (const topic of repo.topics) {
+      counts.set(topic, (counts.get(topic) ?? 0) + 1);
+    }
+  }
+
+  return [...counts.entries()]
+    .map(([topic, count]) => ({ topic, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, limit);
+}

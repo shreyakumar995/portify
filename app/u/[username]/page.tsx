@@ -4,6 +4,7 @@ import {
   fetchRepos,
   getLanguageStats,
   getTopRepos,
+  getTopicStats,
 } from "@/lib/github";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PortfolioPage({ params }: Props) {
   const { username } = await params;
-  let user, topRepos, languageStats;
+  let user, topRepos, languageStats, topicStats;
 
   try {
     const [userData, repoData] = await Promise.all([
@@ -42,6 +43,7 @@ export default async function PortfolioPage({ params }: Props) {
     user = userData;
     topRepos = getTopRepos(repoData);
     languageStats = getLanguageStats(repoData);
+    topicStats = getTopicStats(repoData);
   } catch (err: unknown) {
     if (err instanceof Error && err.message === "User not found") notFound();
     throw err;
@@ -52,6 +54,7 @@ export default async function PortfolioPage({ params }: Props) {
       user={user}
       topRepos={topRepos}
       languageStats={languageStats}
+      topicStats={topicStats}
     />
   );
 }

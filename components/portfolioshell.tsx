@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { GithubUser, GithubRepo } from "@/types/github";
-import { LanguageStat } from "@/lib/github";
+import { LanguageStat, TopicStat } from "@/lib/github";
 import { ThemeName, THEMES } from "@/lib/themes";
 import HeroSection from "@/components/HeroSection";
 import ProjectsGrid from "@/components/ProjectsGrid";
 import LanguageBar from "@/components/LanguageBar";
+import TopicBar from "@/components/TopicBar";
 import ThemeSwitcher from "@/components/themeswitcher";
 import Link from "next/link";
 
@@ -14,9 +15,10 @@ type Props = {
   user: GithubUser;
   topRepos: GithubRepo[];
   languageStats: LanguageStat[];
+  topicStats: TopicStat[];
 };
 
-export default function PortfolioShell({ user, topRepos, languageStats }: Props) {
+export default function PortfolioShell({ user, topRepos, languageStats, topicStats }: Props) {
   const [theme, setTheme] = useState<ThemeName>("minimal");
   const t = THEMES[theme];
   function handleDownloadPDF() {
@@ -64,6 +66,7 @@ export default function PortfolioShell({ user, topRepos, languageStats }: Props)
       <main className="max-w-4xl mx-auto px-4 py-10" id="portfolio-content">
         <HeroSection user={user} theme={t} />
         <LanguageBar stats={languageStats} theme={t} />
+        <TopicBar stats={topicStats} theme={t} />
         <ProjectsGrid repos={topRepos} theme={t} />
       </main>
 

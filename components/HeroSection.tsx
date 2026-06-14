@@ -5,8 +5,16 @@ type Props = {
   user: GithubUser;
   theme: Theme;
 };
+function memberSinceYear(dateStr: string): number {
+  return new Date(dateStr).getFullYear();
+}
+function yearsOnGitHub(dateStr: string): number {
+  return new Date().getFullYear() - new Date(dateStr).getFullYear();
+}
 
 export default function HeroSection({ user, theme }: Props) {
+  const since = memberSinceYear(user.created_at);
+  const years = yearsOnGitHub(user.created_at);
   return (
     <div className="mb-10">
 
@@ -63,6 +71,16 @@ export default function HeroSection({ user, theme }: Props) {
           <span className={`text-xs ${theme.body}`}>{stat.label}</span>
         </div>
       ))}
+      <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg
+                         border text-sm ${theme.card}`}>
+          <span>🗓️</span>
+          <span className={`font-medium ${theme.heading}`}>
+            {since}
+          </span>
+          <span className={`text-xs ${theme.body}`}>
+            on GitHub · {years} yr{years !== 1 ? 's' : ''}
+          </span>
+        </div>
       {user.location && (
         <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg
                          border text-sm ${theme.card}`}>
