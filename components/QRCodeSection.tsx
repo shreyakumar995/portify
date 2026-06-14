@@ -1,19 +1,24 @@
-// Print-only — hidden on screen via .qr-section in globals.css
+"use client";
 
 import { QRCodeSVG } from "qrcode.react";
+import { useEffect, useState } from "react";
 
 type Props = {
-  portfolioUrl: string;
+  username: string;
 };
 
-export default function QRCodeSection({ portfolioUrl }: Props) {
-  const siteHost = (() => {
-    try {
-      return new URL(portfolioUrl).host;
-    } catch {
-      return portfolioUrl;
-    }
-  })();
+export default function QRCodeSection({ username }: Props) {
+  const [portfolioUrl, setPortfolioUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Always use the URL the user is actually on — works on Vercel previews,
+    // production, and custom domains without relying on env vars.
+    setPortfolioUrl(`${window.location.origin}/u/${username}`);
+  }, [username]);
+
+  if (!portfolioUrl) return null;
+
+  const siteHost = new URL(portfolioUrl).host;
 
   return (
     <div className="qr-section">

@@ -17,7 +17,6 @@ type Props = {
   topRepos: GithubRepo[];
   languageStats: LanguageStat[];
   topicStats: TopicStat[];
-  portfolioUrl: string;
 };
 
 export default function PortfolioShell({
@@ -25,7 +24,6 @@ export default function PortfolioShell({
   topRepos,
   languageStats,
   topicStats,
-  portfolioUrl,
 }: Props) {
   const [theme, setTheme] = useState<ThemeName>("minimal");
   const t = THEMES[theme];
@@ -76,7 +74,7 @@ export default function PortfolioShell({
         <LanguageBar stats={languageStats} theme={t} />
         <TopicBar stats={topicStats} theme={t} />
         <ProjectsGrid repos={topRepos} theme={t} />
-        <QRCodeSection portfolioUrl={portfolioUrl} />
+        <QRCodeSection username={user.login} />
       </main>
 
       {/* ── Footer ── */}

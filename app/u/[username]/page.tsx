@@ -6,7 +6,6 @@ import {
   getTopRepos,
   getTopicStats,
 } from "@/lib/github";
-import { getPortfolioUrl } from "@/lib/site";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -56,7 +55,6 @@ export default async function PortfolioPage({ params }: Props) {
       topRepos={topRepos}
       languageStats={languageStats}
       topicStats={topicStats}
-      portfolioUrl={getPortfolioUrl(username)}
     />
   );
 }
