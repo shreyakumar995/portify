@@ -11,8 +11,9 @@ type Props = {
 
 export default function QRCodeSection({ username }: Props) {
   // Build the full live URL
-  const portfolioUrl = `https://portify.dev/u/${username}`;
+  
   // Before deployment use your Vercel URL:
+  const portfolioUrl = `https://portify-git.vercel.app/u/${username}`;
   // const portfolioUrl = `https://your-project.vercel.app/u/${username}`;
 
   return (
