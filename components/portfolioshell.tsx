@@ -28,7 +28,10 @@ export default function PortfolioShell({
   const [theme, setTheme] = useState<ThemeName>("minimal");
   const t = THEMES[theme];
   function handleDownloadPDF() {
-    window.print();
+    // Let the QR canvas finish painting before opening the print dialog
+    requestAnimationFrame(() => {
+      setTimeout(() => window.print(), 200);
+    });
   }
 
   return (
