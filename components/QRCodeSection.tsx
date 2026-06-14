@@ -4,16 +4,21 @@
 'use client';
 
 import { QRCodeSVG } from 'qrcode.react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   username: string;
 };
 
 export default function QRCodeSection({ username }: Props) {
+    
+
+    const base = "https://portify-git.vercel.app";
+    const portfolioUrl = `${base}/u/${username}`;
   // Build the full live URL
   
   // Before deployment use your Vercel URL:
-  const portfolioUrl = `https://portify-git.vercel.app/u/${username}`;
+  //const portfolioUrl = `https://portify-git.vercel.app/u/${username}`;
   // const portfolioUrl = `https://your-project.vercel.app/u/${username}`;
 
   return (
