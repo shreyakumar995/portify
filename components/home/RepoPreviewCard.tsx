@@ -29,7 +29,8 @@ export default function RepoPreviewCard() {
         relative w-full max-w-sm rounded-xl overflow-hidden
         border border-[#30363d] bg-[#161b22]
         shadow-xl shadow-black/40
-        transition-all duration-500
+        transition-all duration-500 ease-out
+        hover:border-[#484f58] hover:shadow-2xl hover:shadow-black/50
         ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
       `}
     >

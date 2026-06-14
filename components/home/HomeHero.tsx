@@ -1,11 +1,20 @@
 "use client";
 
-import { Loader2, ArrowDown } from "lucide-react";
+import { Loader2, ArrowDown, Check } from "lucide-react";
 import GithubIcon from "./GithubIcon";
-import RepoPreviewCard from "./RepoPreviewCard";
+import HeroTransformVisual from "./HeroTransformVisual";
 import ContributionGrid from "./ContributionGrid";
+import { CONTAINER } from "./layout";
+import { instrumentSerif } from "./fonts";
 
 const EXAMPLES = ["torvalds", "gaearon", "sindresorhus"] as const;
+
+const TRUST_BADGES = [
+  "No Sign Up Required",
+  "GitHub Powered",
+  "Open Source",
+  "Instant Generation",
+] as const;
 
 type Props = {
   username: string;
@@ -26,41 +35,57 @@ export default function HomeHero({
 }: Props) {
   return (
     <section
+      id="hero"
       aria-labelledby="hero-heading"
-      className="relative overflow-hidden border-b border-[#21262d]"
+      className="home-hero-section relative overflow-hidden border-b border-[var(--home-border-subtle)] scroll-mt-20"
     >
       <ContributionGrid />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 py-16 sm:py-20 lg:py-24">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left flex-1">
-            <div className="inline-flex items-center gap-2 mb-6 rounded-full border border-[#30363d] bg-[#161b22] px-3 py-1">
-              <GithubIcon className="h-3.5 w-3.5 text-[#8b949e]" />
-              <span className="text-xs text-[#8b949e] tracking-wide">
-                Built for GitHub developers
+      <div className={`relative z-10 ${CONTAINER} pt-20 pb-14 sm:pt-24 sm:pb-16 lg:pt-28 lg:pb-20 xl:pt-32 xl:pb-24`}>
+        <div className="grid gap-5 sm:gap-6 lg:grid-cols-2 lg:gap-10 xl:gap-14 lg:items-start">
+          {/* Copy — top */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:col-start-1 lg:row-start-1">
+            <div className="inline-flex items-center gap-2 mb-5 rounded-full border border-[var(--home-border)] bg-[var(--home-surface)]/90 px-3.5 py-1 backdrop-blur-sm">
+              <GithubIcon className="h-3.5 w-3.5 text-[var(--home-muted)]" />
+              <span className="text-[11px] font-medium text-[var(--home-muted)] tracking-wide">
+                Developer portfolio generator
               </span>
             </div>
 
-            <h1
-              id="hero-heading"
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#f0f6fc] mb-4"
-            >
-              Ship a portfolio from your{" "}
-              <span className="text-[#58a6ff]">GitHub profile</span>
+            <h1 id="hero-heading" className="home-hero-title mb-4 text-balance w-full max-w-2xl">
+              Turn Your GitHub Profile Into a{" "}
+              <span className="block sm:inline">
+                <span className={`${instrumentSerif.className} home-hero-title-accent`}>
+                  Professional
+                </span>{" "}
+                Developer Portfolio
+              </span>
             </h1>
 
-            <p className="text-[#8b949e] text-base sm:text-lg max-w-lg leading-relaxed mb-8">
-              Enter a username and get a shareable developer portfolio — repos,
-              stats, and languages pulled live. No templates to configure.
+            <p className="home-hero-subtitle mb-0 text-pretty w-full max-w-xl">
+              Generate a polished portfolio from your repositories, skills, and
+              contributions in seconds.
             </p>
+          </div>
 
-            <form onSubmit={onSubmit} className="w-full max-w-md" aria-label="Generate portfolio">
-              <div className="flex flex-col gap-3 sm:flex-row">
+          {/* Visual — mobile: after subtitle; tablet: after trust; desktop: right column */}
+          <div className="order-2 md:order-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:self-start lg:-mt-1 w-full flex justify-center lg:justify-end">
+            <HeroTransformVisual compact />
+          </div>
+
+          {/* Copy — form, trust, examples */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-3 md:order-2 lg:col-start-1 lg:row-start-2 w-full max-w-lg lg:max-w-none mx-auto lg:mx-0">
+            <form
+              onSubmit={onSubmit}
+              className="w-full max-w-lg mb-4 md:mb-5"
+              aria-label="Generate portfolio"
+            >
+              <div className="flex flex-col gap-2.5 sm:flex-row">
                 <div className="relative flex-1">
                   <label htmlFor="github-username" className="sr-only">
                     GitHub username
                   </label>
-                  <GithubIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#484f58]" />
+                  <GithubIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--home-subtle)]" />
                   <input
                     id="github-username"
                     type="text"
@@ -70,14 +95,13 @@ export default function HomeHero({
                     disabled={loading}
                     autoComplete="off"
                     spellCheck={false}
-                    className="w-full rounded-lg border border-[#30363d] bg-[#0d1117] py-2.5 pl-10 pr-4 text-sm text-[#f0f6fc] placeholder:text-[#484f58] outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all disabled:cursor-not-allowed disabled:opacity-50 font-mono"
+                    className="home-input home-input-compact"
                   />
                 </div>
-
                 <button
                   type="submit"
                   disabled={!username.trim() || loading}
-                  className="inline-flex h-10 min-w-[148px] items-center justify-center gap-2 rounded-lg px-5 text-sm font-medium text-white transition-colors bg-[#238636] hover:bg-[#2ea043] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#238636] disabled:cursor-not-allowed disabled:opacity-40"
+                  className="home-btn-primary home-btn-primary-lg h-11 min-w-[152px] shrink-0"
                 >
                   {loading ? (
                     <>
@@ -91,17 +115,28 @@ export default function HomeHero({
               </div>
             </form>
 
-            <div className="mt-4 flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+            <ul className="home-trust-badges w-full max-w-lg mb-4">
+              {TRUST_BADGES.map(badge => (
+                <li key={badge} className="home-trust-badge">
+                  <Check className="h-2.5 w-2.5 text-[var(--home-success)] shrink-0" aria-hidden />
+                  {badge}
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-4 w-full max-w-lg">
               <button
                 type="button"
                 onClick={onViewExamples}
-                className="inline-flex items-center gap-1.5 text-sm text-[#58a6ff] hover:text-[#79c0ff] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#58a6ff] rounded"
+                className="home-link inline-flex items-center gap-1.5 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] rounded"
               >
                 View Example Portfolio
                 <ArrowDown className="h-3.5 w-3.5" aria-hidden />
               </button>
-              <span className="hidden sm:inline text-[#30363d]" aria-hidden>·</span>
-              <p className="text-sm text-[#484f58]">
+              <span className="hidden sm:inline text-[var(--home-border)]" aria-hidden>
+                ·
+              </span>
+              <p className="text-sm text-[var(--home-subtle)]">
                 Try{" "}
                 {EXAMPLES.map((name, index) => (
                   <span key={name}>
@@ -110,7 +145,7 @@ export default function HomeHero({
                       type="button"
                       onClick={() => onExampleClick(name)}
                       disabled={loading}
-                      className="text-[#58a6ff]/80 hover:text-[#79c0ff] underline underline-offset-2 decoration-[#30363d] hover:decoration-[#58a6ff]/50 transition-colors disabled:cursor-not-allowed disabled:opacity-50 font-mono"
+                      className="home-link underline underline-offset-2 decoration-[var(--home-border)] hover:decoration-[var(--home-primary)] disabled:cursor-not-allowed disabled:opacity-50 font-mono"
                     >
                       {name}
                     </button>
@@ -118,10 +153,6 @@ export default function HomeHero({
                 ))}
               </p>
             </div>
-          </div>
-
-          <div className="flex-1 w-full max-w-sm lg:max-w-none hidden md:flex justify-center lg:justify-end">
-            <RepoPreviewCard />
           </div>
         </div>
       </div>

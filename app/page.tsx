@@ -1,12 +1,19 @@
-'use client';
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
+import { HomeThemeProvider } from "@/components/home/ThemeProvider";
+import Navbar from "@/components/home/Navbar";
 import HomeHero from "@/components/home/HomeHero";
+import TechStackStrip from "@/components/home/TechStackStrip";
 import TrustBar from "@/components/home/TrustBar";
 import HowItWorks from "@/components/home/HowItWorks";
+import BeforeAfter from "@/components/home/BeforeAfter";
+import SocialProof from "@/components/home/SocialProof";
 import PortfolioShowcase from "@/components/home/PortfolioShowcase";
 import FeatureGrid from "@/components/home/FeatureGrid";
+import FinalCTA from "@/components/home/FinalCTA";
+import Footer from "@/components/home/Footer";
 
 export default function HomePage() {
   const [username, setUsername] = useState("");
@@ -32,19 +39,32 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0d1117] text-[#c9d1d9]">
-      <HomeHero
-        username={username}
-        loading={loading}
-        onUsernameChange={setUsername}
-        onSubmit={handleSubmit}
-        onExampleClick={handleExampleClick}
-        onViewExamples={handleViewExamples}
-      />
-      <TrustBar />
-      <HowItWorks />
-      <PortfolioShowcase />
-      <FeatureGrid />
-    </main>
+    <HomeThemeProvider>
+      <Navbar />
+      <main>
+        <HomeHero
+          username={username}
+          loading={loading}
+          onUsernameChange={setUsername}
+          onSubmit={handleSubmit}
+          onExampleClick={handleExampleClick}
+          onViewExamples={handleViewExamples}
+        />
+        <TechStackStrip />
+        <TrustBar />
+        <HowItWorks />
+        <BeforeAfter />
+        <SocialProof />
+        <PortfolioShowcase />
+        <FeatureGrid />
+        <FinalCTA
+          username={username}
+          loading={loading}
+          onUsernameChange={setUsername}
+          onSubmit={handleSubmit}
+        />
+        <Footer />
+      </main>
+    </HomeThemeProvider>
   );
 }

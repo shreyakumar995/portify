@@ -1,61 +1,75 @@
-import { User, Download, Sparkles } from "lucide-react";
+import { Search, GitBranch, LayoutTemplate } from "lucide-react";
+import SectionHeader from "./SectionHeader";
+import WorkflowVisual from "./WorkflowVisual";
+import { CONTAINER, SECTION_PY, SECTION_BORDER } from "./layout";
 
 const STEPS = [
   {
-    step: 1,
-    icon: User,
-    title: "Enter Username",
-    desc: "Type any public GitHub handle — yours or someone else's.",
+    num: "01",
+    icon: Search,
+    title: "Analyze GitHub Profile",
+    desc: "Public profile data, repository metadata, and contribution patterns pulled from GitHub.",
   },
   {
-    step: 2,
-    icon: Download,
-    title: "Fetch GitHub Data",
-    desc: "Repos, languages, stats, and profile info pulled in real time.",
+    num: "02",
+    icon: GitBranch,
+    title: "Extract Projects & Skills",
+    desc: "Top repos, language stats, and topics organized into portfolio-ready sections.",
   },
   {
-    step: 3,
-    icon: Sparkles,
+    num: "03",
+    icon: LayoutTemplate,
     title: "Generate Portfolio",
-    desc: "Get a polished, shareable page ready to send to recruiters.",
+    desc: "A polished, shareable page rendered instantly — ready for recruiters.",
   },
 ] as const;
 
 export default function HowItWorks() {
   return (
-    <section aria-labelledby="how-it-works-heading" className="border-b border-[#21262d]">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-        <div className="text-center mb-12">
-          <h2
-            id="how-it-works-heading"
-            className="text-2xl sm:text-3xl font-bold text-[#f0f6fc] mb-3"
-          >
-            How it works
-          </h2>
-          <p className="text-[#8b949e] max-w-md mx-auto">
-            Three steps from GitHub profile to portfolio link.
-          </p>
-        </div>
+    <section
+      id="how-it-works"
+      aria-labelledby="how-it-works-heading"
+      className={`${SECTION_BORDER} bg-[var(--home-bg)] scroll-mt-20`}
+    >
+      <div className={`${CONTAINER} ${SECTION_PY}`}>
+        <SectionHeader
+          id="how-it-works-heading"
+          eyebrow="Workflow"
+          title="From GitHub profile to portfolio in three steps"
+          description="No manual data entry. Portify transforms live GitHub activity into a professional developer presence."
+          align="left"
+        />
 
-        <ol className="grid gap-6 sm:grid-cols-3">
-          {STEPS.map(({ step, icon: Icon, title, desc }) => (
-            <li
-              key={step}
-              className="relative rounded-xl border border-[#30363d] bg-[#161b22] p-6"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#238636]/15 text-[#3fb950] text-sm font-mono font-semibold">
-                  {step}
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16 lg:items-stretch">
+          <ol className="relative flex flex-col justify-center lg:max-w-md xl:max-w-lg">
+            {STEPS.map(({ num, icon: Icon, title, desc }, index) => (
+              <li key={num} className="relative flex gap-5 pb-8 last:pb-0">
+                {index < STEPS.length - 1 && (
+                  <span
+                    className="absolute left-[19px] top-10 bottom-0 w-px bg-[var(--home-border)]"
+                    aria-hidden
+                  />
+                )}
+                <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--home-border)] bg-[var(--home-surface)] text-xs font-mono font-semibold text-[var(--home-success)]">
+                  {num}
                 </span>
-                <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#21262d] text-[#58a6ff]">
-                  <Icon className="h-4 w-4" aria-hidden />
-                </span>
-              </div>
-              <h3 className="text-base font-semibold text-[#f0f6fc] mb-2">{title}</h3>
-              <p className="text-sm text-[#8b949e] leading-relaxed">{desc}</p>
-            </li>
-          ))}
-        </ol>
+                <div className="pt-1.5 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--home-elevated)] text-[var(--home-primary)]">
+                      <Icon className="h-3.5 w-3.5" aria-hidden />
+                    </span>
+                    <h3 className="home-card-title text-base sm:text-lg">{title}</h3>
+                  </div>
+                  <p className="home-body text-sm sm:text-base">{desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="min-h-[520px] lg:min-h-0">
+            <WorkflowVisual />
+          </div>
+        </div>
       </div>
     </section>
   );
