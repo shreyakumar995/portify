@@ -1,5 +1,6 @@
 "use client";
 
+import { getPortfolioUrl } from "@/lib/site";
 import { QRCodeCanvas } from "qrcode.react";
 import { useSyncExternalStore } from "react";
 
@@ -11,16 +12,15 @@ function subscribe() {
   return () => {};
 }
 
-function getOrigin() {
-  return window.location.origin;
-}
-
 export default function QRCodeSection({ username }: Props) {
-  const origin = useSyncExternalStore(subscribe, getOrigin, () => "");
+  const portfolioUrl = useSyncExternalStore(
+    subscribe,
+    () => getPortfolioUrl(username),
+    () => "",
+  );
 
-  if (!origin) return null;
+  if (!portfolioUrl) return null;
 
-  const portfolioUrl = `${origin}/u/${username}`;
   const siteHost = new URL(portfolioUrl).host;
 
   return (

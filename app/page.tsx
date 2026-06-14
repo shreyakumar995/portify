@@ -59,7 +59,7 @@ function PortfolioPreviewCard() {
         <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
         <span className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
         <span className="ml-3 text-xs text-white/20 font-mono">
-          portify.dev/u/torvalds
+          portify-git.vercel.app/u/torvalds
         </span>
       </div>
 
