@@ -17,9 +17,16 @@ type Props = {
   topRepos: GithubRepo[];
   languageStats: LanguageStat[];
   topicStats: TopicStat[];
+  portfolioUrl: string;
 };
 
-export default function PortfolioShell({ user, topRepos, languageStats, topicStats }: Props) {
+export default function PortfolioShell({
+  user,
+  topRepos,
+  languageStats,
+  topicStats,
+  portfolioUrl,
+}: Props) {
   const [theme, setTheme] = useState<ThemeName>("minimal");
   const t = THEMES[theme];
   function handleDownloadPDF() {
@@ -69,7 +76,7 @@ export default function PortfolioShell({ user, topRepos, languageStats, topicSta
         <LanguageBar stats={languageStats} theme={t} />
         <TopicBar stats={topicStats} theme={t} />
         <ProjectsGrid repos={topRepos} theme={t} />
-        <QRCodeSection username={user.login} />
+        <QRCodeSection portfolioUrl={portfolioUrl} />
       </main>
 
       {/* ── Footer ── */}
