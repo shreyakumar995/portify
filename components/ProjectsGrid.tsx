@@ -25,7 +25,9 @@ export default function ProjectsGrid({ repos, theme }: Props) {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {repos.map((repo) => (
-          <ProjectCard key={repo.id} repo={repo} theme={theme} />
+           <div key={repo.id} className="project-card">
+          <ProjectCard repo={repo}  theme={theme} />
+          </div>
         ))}
       </div>
     </section>

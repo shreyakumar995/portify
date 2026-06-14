@@ -41,6 +41,9 @@ body {
     box-shadow: none !important;
   }
 }
+.qr-section {
+  display: none;
+}
 /* ── PDF / Print styles ─────────────────────── */
 @media print {
   /* Hide everything we don't want in the PDF */
@@ -57,7 +60,8 @@ body {
   }
 
   /* Keep language dot colours in PDF */
-  [style*="background-color"] {
+  [style*="background-color"],
+  [style*="background"] {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -67,6 +71,20 @@ body {
     break-inside: avoid;
     page-break-inside: avoid;
   }
+  .grid{
+    grid-template-columns: 1fr !important;
+  }
+  .project-card:nth-child(n+4){
+    display: none !important;
+  }
+  .stat-followers,
+  .stat-following {
+    display: none !important;
+  }
+  .qr-section{
+    display: block !important;
+  }
+  
 
   /* Remove border on page */
   body {
@@ -78,4 +96,10 @@ body {
   a[href]::after {
     content: none !important;
   }
+  @page {
+    margin: 1.5cm;
+  }
+
 }
+
+

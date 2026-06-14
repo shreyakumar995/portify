@@ -10,6 +10,7 @@ import LanguageBar from "@/components/LanguageBar";
 import TopicBar from "@/components/TopicBar";
 import ThemeSwitcher from "@/components/themeswitcher";
 import Link from "next/link";
+import QRCodeSection from "@/components/QRCodeSection";
 
 type Props = {
   user: GithubUser;
@@ -68,6 +69,7 @@ export default function PortfolioShell({ user, topRepos, languageStats, topicSta
         <LanguageBar stats={languageStats} theme={t} />
         <TopicBar stats={topicStats} theme={t} />
         <ProjectsGrid repos={topRepos} theme={t} />
+        <QRCodeSection username={user.login} />
       </main>
 
       {/* ── Footer ── */}

@@ -15,7 +15,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Portify — Dev Portfolios from GitHub',
   description: 'Enter any GitHub username and get a beautiful developer portfolio instantly.',
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },  
+    ],
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",   
+  },
 };
+
 
 export default function RootLayout({
   children,

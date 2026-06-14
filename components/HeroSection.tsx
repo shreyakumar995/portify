@@ -55,14 +55,14 @@ export default function HeroSection({ user, theme }: Props) {
     {/* ── Stats row ── */}
     <div className="flex flex-wrap gap-3 mb-4">
       {[
-        { label: 'Repos',     value: user.public_repos, icon: '📦' },
-        { label: 'Followers', value: user.followers,    icon: '👥' },
-        { label: 'Following', value: user.following,    icon: '➕' },
+        { label: 'Repos',     value: user.public_repos, icon: '📦', cls: 'stat-repos' },
+        { label: 'Followers', value: user.followers,    icon: '👥', cls: 'stat-followers' },
+        { label: 'Following', value: user.following,    icon: '➕', cls: 'stat-following' },
       ].map(stat => (
         <div
           key={stat.label}
           className={`flex items-center gap-2 px-3 py-1.5 rounded-lg
-                      border text-sm ${theme.card}`}
+                      border text-sm ${theme.card} ${stat.cls}`}
         >
           <span>{stat.icon}</span>
           <span className={`font-medium ${theme.heading}`}>
