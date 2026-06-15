@@ -12,7 +12,7 @@ function headers() {
 export async function fetchUser(username: string): Promise<GithubUser> {
   const res = await fetch(`${BASE}/users/${username}`, {
     headers: headers(),
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
   if (!res.ok) throw new Error("User not found");
   return res.json();
@@ -27,7 +27,7 @@ export async function fetchRepos(username: string): Promise<GithubRepo[]> {
       `${BASE}/users/${username}/repos?per_page=100&page=${page}&sort=updated`,
       {
         headers: headers(),
-        next: { revalidate: 3600 },
+        cache: "no-store",
       },
     );
     if (!res.ok) throw new Error("Repos not found");

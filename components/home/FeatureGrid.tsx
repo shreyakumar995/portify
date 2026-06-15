@@ -4,8 +4,10 @@ import {
   Palette,
   FileDown,
   Smartphone,
+  QrCode,
 } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import QrCodeFeatureVisual from "./QrCodeFeatureVisual";
 import { CONTAINER, SECTION_PY, SECTION_BORDER, CARD_FEATURED, CARD_SUPPORTING } from "./layout";
 
 function StatsVisual() {
@@ -79,9 +81,9 @@ function GenerateVisual() {
 
 function ThemeVisual() {
   const themes = [
-    { name: "Minimal", bg: "#ffffff", text: "#24292f" },
     { name: "Dark", bg: "#0d1117", text: "#f0f6fc" },
-    { name: "Gradient", bg: "linear-gradient(135deg,#f5f3ff,#fdf2f8)", text: "#4c1d95" },
+    { name: "Light", bg: "#ffffff", text: "#24292f" },
+    { name: "Aurora", bg: "linear-gradient(135deg,#f3f0ff,#ebe4ff)", text: "#6d28d9" },
   ];
   return (
     <div className="h-full min-h-[150px] rounded-xl border border-[var(--home-border)] bg-[var(--home-bg)] p-3 flex gap-2" aria-hidden>
@@ -154,7 +156,7 @@ const SMALL_FEATURES = [
   {
     icon: Palette,
     title: "Theme Switching",
-    desc: "Switch between Minimal, Dark, and Gradient themes instantly.",
+    desc: "Switch between Dark, Light, and Aurora themes instantly.",
     Visual: ThemeVisual,
   },
   {
@@ -162,6 +164,12 @@ const SMALL_FEATURES = [
     title: "PDF Export",
     desc: "Print or save your portfolio as a PDF for offline sharing.",
     Visual: PdfVisual,
+  },
+  {
+    icon: QrCode,
+    title: "QR Code Sharing",
+    desc: "Every portfolio gets a scannable QR code — embedded in your PDF.",
+    Visual: QrCodeFeatureVisual,
   },
   {
     icon: Smartphone,
@@ -206,7 +214,7 @@ export default function FeatureGrid() {
             ))}
           </ul>
 
-          <ul className="grid gap-4 sm:gap-5 sm:grid-cols-3 pt-2">
+          <ul className="grid gap-4 sm:gap-5 grid-cols-2 lg:grid-cols-4 pt-2">
             {SMALL_FEATURES.map(({ icon: Icon, title, desc, Visual }) => (
               <li key={title} className={`overflow-hidden rounded-xl flex flex-col ${CARD_SUPPORTING}`}>
                 <div className="p-4 sm:p-5 flex-1 bg-[var(--home-bg)]">

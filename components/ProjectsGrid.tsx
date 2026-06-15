@@ -1,32 +1,27 @@
 import ProjectCard from "@/components/ProjectCard";
-import type { Theme } from "@/lib/themes";
 import type { GithubRepo } from "@/types/github";
 
 type Props = {
   repos: GithubRepo[];
-  theme: Theme;
 };
 
-export default function ProjectsGrid({ repos, theme }: Props) {
+export default function ProjectsGrid({ repos }: Props) {
   if (repos.length === 0) {
     return (
       <section>
-        <h2 className={`text-lg font-medium mb-4 ${theme.heading}`}>
-          No projects found
-        </h2>
+        <h2 className="home-card-title text-lg mb-4">No projects found</h2>
       </section>
     );
   }
 
   return (
     <section>
-      <h2 className={`text-lg font-medium mb-4 ${theme.heading}`}>
-        Top Projects
-      </h2>
+      <p className="home-eyebrow mb-2">Repositories</p>
+      <h2 className="home-card-title text-lg sm:text-xl mb-5 sm:mb-6">Top Projects</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {repos.map((repo) => (
-           <div key={repo.id} className="project-card">
-          <ProjectCard repo={repo}  theme={theme} />
+        {repos.map(repo => (
+          <div key={repo.id} className="project-card">
+            <ProjectCard repo={repo} />
           </div>
         ))}
       </div>

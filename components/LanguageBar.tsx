@@ -1,5 +1,4 @@
 import { LanguageStat } from "@/lib/github";
-import type { Theme } from "@/lib/themes";
 
 const LANG_COLORS: Record<string, string> = {
   TypeScript: "#3178C6",
@@ -13,59 +12,59 @@ const LANG_COLORS: Record<string, string> = {
   Shell: "#89E051",
   "C++": "#F34B7D",
   C: "#555555",
-  Swift:         "#F05138",
-  Kotlin:        "#7F52FF",
-  Ruby:          "#CC342D",
-  PHP:           "#777BB4",
-  Dart:          "#00B4AB",
+  Swift: "#F05138",
+  Kotlin: "#7F52FF",
+  Ruby: "#CC342D",
+  PHP: "#777BB4",
+  Dart: "#00B4AB",
   "Objective-C": "#438EFF",
 };
 
 type Props = {
   stats: LanguageStat[];
-  theme: Theme;
 };
 
-export default function LanguageBar({ stats, theme }: Props) {
+export default function LanguageBar({ stats }: Props) {
   if (stats.length === 0) return null;
 
-  const top=stats.slice(0, 6);
+  const top = stats.slice(0, 6);
   const total = top.reduce((sum, s) => sum + s.count, 0);
 
   return (
-    <section className="mb-10">
-      <h2 className={`text-base font-semibold mb-3 ${theme.heading}`}>
-        Languages
-      </h2>
+    <section className="mb-10 sm:mb-12">
+      <p className="home-eyebrow mb-2">Stack</p>
+      <h2 className="home-card-title text-base sm:text-lg mb-4">Languages</h2>
 
-      <div className="flex rounded-full overflow-hidden h-2.5 mb-3 gap-px">
-        {top.map(({ language, count }) => (
-          <div
-            key={language}
-            style={{
-              width: `${(count / total) * 100}%`,
-              backgroundColor: LANG_COLORS[language] ?? "#888",
-            }}
-            title={`${language}: ${Math.round((count / total) * 100)}%`}
-          />
-        ))}
-      </div>
-
-      <div className="flex flex-wrap gap-x-5 gap-y-1.5">
-        {top.map(({ language, count }) => (
-          <div key={language} className="flex items-center gap-1.5">
-            <span
-              className="w-2 h-2 rounded-full shrink-0"
-              style={{ backgroundColor: LANG_COLORS[language] ?? "#888" }}
+      <div className="home-card p-4 sm:p-5">
+        <div className="flex rounded-full overflow-hidden h-2 sm:h-2.5 mb-4 gap-px">
+          {top.map(({ language, count }) => (
+            <div
+              key={language}
+              style={{
+                width: `${(count / total) * 100}%`,
+                backgroundColor: LANG_COLORS[language] ?? "#888",
+              }}
+              title={`${language}: ${Math.round((count / total) * 100)}%`}
             />
-            <span className={`text-xs ${theme.body}`}>
-              {language}{" "}
-              <span className={`text-xs opacity-80 ${theme.body}`}>
-                {Math.round((count / total) * 100)}%
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
+          {top.map(({ language, count }) => (
+            <div key={language} className="flex items-center gap-1.5">
+              <span
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ backgroundColor: LANG_COLORS[language] ?? "#888" }}
+              />
+              <span className="text-xs text-[var(--home-muted)]">
+                {language}{" "}
+                <span className="font-mono text-[var(--home-subtle)]">
+                  {Math.round((count / total) * 100)}%
+                </span>
               </span>
-            </span>
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,16 +1,17 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GithubUser, GithubRepo } from "@/types/github";
 import { LanguageStat, TopicStat } from "@/lib/github";
-import { ThemeName, THEMES } from "@/lib/themes";
 import HeroSection from "@/components/HeroSection";
 import ProjectsGrid from "@/components/ProjectsGrid";
 import LanguageBar from "@/components/LanguageBar";
 import TopicBar from "@/components/TopicBar";
-import ThemeSwitcher from "@/components/themeswitcher";
+import ThemeSwitcher from "@/components/home/ThemeSwitcher";
 import Link from "next/link";
 import QRCodeSection from "@/components/QRCodeSection";
+import GithubIcon from "@/components/home/GithubIcon";
+import { CONTAINER } from "@/components/home/layout";
 
 type Props = {
   user: GithubUser;
@@ -25,77 +26,77 @@ export default function PortfolioShell({
   languageStats,
   topicStats,
 }: Props) {
-  const [theme, setTheme] = useState<ThemeName>("minimal");
-  const t = THEMES[theme];
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   function handleDownloadPDF() {
-    // Let the QR canvas finish painting before opening the print dialog
     requestAnimationFrame(() => {
       setTimeout(() => window.print(), 200);
     });
   }
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${t.page}`}>
-      {/* ── Top navbar ── */}
-      <nav className={`sticky top-0 z-50 border-b ${t.border}
-                       backdrop-blur-md bg-opacity-80 no-print`}
-           style={{ backgroundColor: 'inherit' }}>
-        <div className="max-w-4xl mx-auto px-4 h-14 flex items-center
-                        justify-between gap-4">
-
-          {/* Left — back to home */}
+  <>
+      <header
+        className={`sticky top-0 z-50 w-full transition-[background,box-shadow,border-color] duration-300 ease-out no-print ${
+          scrolled ? "home-nav-glass" : "bg-[var(--home-bg)]/80 backdrop-blur-sm border-b border-[var(--home-border-subtle)]"
+        }`}
+      >
+        <div className={`${CONTAINER} flex h-14 items-center justify-between gap-4`}>
           <Link
             href="/"
-            className={`text-sm font-semibold tracking-tight ${t.heading}
-                        hover:opacity-70 transition-opacity`}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--home-text)] hover:text-[var(--home-primary)] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] rounded-lg py-1 shrink-0"
           >
-            ← Portify
+            <GithubIcon className="h-5 w-5 shrink-0" />
+            <span>Portify</span>
           </Link>
 
-          {/* Right — theme switcher + PDF */}
           <div className="flex items-center gap-2">
-            <ThemeSwitcher current={theme} onChange={setTheme} />
-
+            <ThemeSwitcher compact />
             <button
+              type="button"
               onClick={handleDownloadPDF}
-              className={`text-xs px-3 py-1.5 rounded-full border
-                         ${t.border} ${t.body}
-                         hover:opacity-80 transition-all duration-200
-                         flex items-center gap-1.5`}
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-[var(--home-border)] bg-[var(--home-surface)] px-3 text-xs font-medium text-[var(--home-muted)] hover:border-[var(--home-border-hover)] hover:text-[var(--home-text)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)]"
             >
-              <span>↓</span>
-              <span>PDF</span>
+              <span aria-hidden>↓</span>
+              PDF
             </button>
           </div>
-
         </div>
-      </nav>
+      </header>
 
-      {/* ── Main content ── */}
-      <main className="max-w-4xl mx-auto px-4 py-10" id="portfolio-content">
-        <HeroSection user={user} theme={t} />
-        <LanguageBar stats={languageStats} theme={t} />
-        <TopicBar stats={topicStats} theme={t} />
-        <ProjectsGrid repos={topRepos} theme={t} />
+      <main className={`${CONTAINER} py-10 sm:py-12 lg:py-14`} id="portfolio-content">
+        <HeroSection user={user} />
+        <LanguageBar stats={languageStats} />
+        <TopicBar stats={topicStats} />
+        <ProjectsGrid repos={topRepos} />
         <QRCodeSection username={user.login} />
       </main>
 
-      {/* ── Footer ── */}
-      <footer className={`border-t ${t.border} mt-16 py-6 no-print`}>
-        <div className={`max-w-4xl mx-auto px-4 flex justify-between
-                         items-center text-xs ${t.body}`}>
-          <span>Generated by <strong>Portify</strong></span>
+      <footer className="border-t border-[var(--home-border-subtle)] mt-8 py-8 no-print">
+        <div className={`${CONTAINER} flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center text-xs text-[var(--home-subtle)]`}>
+          <span>
+            Generated by{" "}
+            <Link href="/" className="home-link font-medium">
+              Portify
+            </Link>
+          </span>
           <a
             href={user.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:opacity-70 transition-opacity"
+            className="home-link inline-flex items-center gap-1"
           >
             View on GitHub ↗
           </a>
         </div>
       </footer>
-
-    </div>
+  </>
   );
 }
