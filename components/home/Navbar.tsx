@@ -8,7 +8,8 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import { useActiveSection } from "./useActiveSection";
 import { CONTAINER, scrollToHeroAndFocus, scrollToSection } from "./layout";
 
-const REPO_URL = "https://github.com/sumandey7684/portify-sheryaa";
+//const REPO_URL = "https://github.com/sumandey7684/portify-sheryaa";
+const REPO_URL = "https://github.com/shreyakumar995/portify";
 
 const NAV_LINKS = [
   { label: "Features", id: "features" },
