@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { GithubUser } from "@/types/github";
 import type { Theme } from "@/lib/themes";
 
@@ -23,9 +24,12 @@ export default function HeroSection({ user, theme }: Props) {
 
       {/* Avatar with ring */}
       <div className="relative shrink-0">
-        <img
+        <Image
           src={user.avatar_url}
           alt={user.login}
+          width={80}
+          height={80}
+          sizes="80px"
           className={`w-20 h-20 rounded-full border-2 ${theme.border}`}
         />
         {/* Online-style dot */}
