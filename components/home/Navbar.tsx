@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import GithubIcon from "./GithubIcon";
@@ -19,6 +19,8 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstMobileLinkRef = useRef<HTMLButtonElement>(null);
   const activeSection = useActiveSection();
 
   useEffect(() => {
@@ -33,6 +35,22 @@ export default function Navbar() {
     return () => {
       document.body.style.overflow = "";
     };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    firstMobileLinkRef.current?.focus();
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [mobileOpen]);
 
   function handleNavClick(id: string) {
@@ -56,32 +74,34 @@ export default function Navbar() {
       }`}
     >
       <div className={`${CONTAINER} flex h-14 sm:h-16 items-center justify-between gap-4`}>
-          <Link
+        <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--home-text)] hover:text-[var(--home-primary)] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] rounded-lg py-1 shrink-0 min-w-0"
+          className="inline-flex min-h-11 items-center gap-2 rounded-lg text-sm font-semibold text-(--home-text) hover:text-(--home-primary) transition-colors duration-200 shrink-0 min-w-0"
         >
           <GithubIcon className="h-5 w-5 shrink-0" />
           <span className="truncate">Portify</span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-0.5" aria-label="Main">
-          {NAV_LINKS.map(({ label, id }) => (
-            <button
-              key={id}
-              type="button"
-              onClick={() => handleNavClick(id)}
-              className={`home-nav-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] ${
-                isActive(id) ? "home-nav-link-active" : ""
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+          {NAV_LINKS.map(({ label, id }) => {
+            const active = isActive(id);
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => handleNavClick(id)}
+                aria-current={active ? "page" : undefined}
+                className={`home-nav-link ${active ? "home-nav-link-active" : ""}`}
+              >
+                {label}
+              </button>
+            );
+          })}
           <Link
             href={REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="home-nav-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)]"
+            className="home-nav-link"
           >
             GitHub
           </Link>
@@ -92,17 +112,19 @@ export default function Navbar() {
           <button
             type="button"
             onClick={handleGenerateClick}
-            className="home-btn-primary hidden md:inline-flex h-8 px-3 text-xs lg:h-9 lg:px-4 lg:text-sm"
+            className="home-btn-primary hidden md:inline-flex min-h-11 px-3 text-xs lg:px-4 lg:text-sm"
           >
             <span className="lg:hidden">Generate</span>
             <span className="hidden lg:inline">Generate Portfolio</span>
           </button>
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setMobileOpen(v => !v)}
-            className="lg:hidden inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--home-border)] bg-[var(--home-surface)] text-[var(--home-text)] shadow-[var(--home-elevation-2)] hover:border-[var(--home-border-hover)] transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)]"
+            className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-(--home-border) bg-(--home-surface) text-(--home-text) shadow-(--home-elevation-2) hover:border-(--home-border-hover) transition-all duration-200"
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav"
+            aria-haspopup="true"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -117,26 +139,31 @@ export default function Navbar() {
           aria-label="Mobile"
         >
           <div className={`${CONTAINER} py-4 flex flex-col gap-0.5`}>
-            {NAV_LINKS.map(({ label, id }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => handleNavClick(id)}
-                className={`rounded-lg px-3 py-2.5 text-left text-sm transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] ${
-                  isActive(id)
-                    ? "bg-[var(--home-elevated)] text-[var(--home-text)] shadow-[var(--home-elevation-2)]"
-                    : "text-[var(--home-muted)] hover:bg-[var(--home-surface)] hover:text-[var(--home-text)]"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
+            {NAV_LINKS.map(({ label, id }, index) => {
+              const active = isActive(id);
+              return (
+                <button
+                  ref={index === 0 ? firstMobileLinkRef : undefined}
+                  key={id}
+                  type="button"
+                  onClick={() => handleNavClick(id)}
+                  aria-current={active ? "page" : undefined}
+                  className={`min-h-11 rounded-lg px-3 py-2.5 text-left text-sm transition-colors duration-200 ${
+                    active
+                      ? "bg-(--home-elevated) text-(--home-text) shadow-(--home-elevation-2)"
+                      : "text-(--home-muted) hover:bg-(--home-surface) hover:text-(--home-text)"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
             <Link
               href={REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm text-[var(--home-muted)] hover:bg-[var(--home-surface)] hover:text-[var(--home-text)] transition-colors duration-200"
+              className="flex min-h-11 items-center rounded-lg px-3 py-2.5 text-sm text-(--home-muted) hover:bg-(--home-surface) hover:text-(--home-text) transition-colors duration-200"
             >
               GitHub
             </Link>
@@ -146,7 +173,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={handleGenerateClick}
-              className="home-btn-primary mt-3 h-10 w-auto self-start px-5 text-sm"
+              className="home-btn-primary mt-3 min-h-11 w-full px-5 text-sm sm:w-auto sm:self-start"
             >
               Generate Portfolio
             </button>

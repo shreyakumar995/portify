@@ -17,6 +17,7 @@ const TRUST_BADGES = [
 ] as const;
 
 type Props = {
+  inputRef: React.RefObject<HTMLInputElement | null>;
   username: string;
   loading: boolean;
   onUsernameChange: (value: string) => void;
@@ -26,6 +27,7 @@ type Props = {
 };
 
 export default function HomeHero({
+  inputRef,
   username,
   loading,
   onUsernameChange,
@@ -37,17 +39,17 @@ export default function HomeHero({
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="home-hero-section relative overflow-hidden border-b border-[var(--home-border-subtle)] scroll-mt-20"
+      className="home-hero-section relative overflow-hidden border-b border-(--home-border-subtle) scroll-mt-24"
     >
       <ContributionGrid />
 
-      <div className={`relative z-10 ${CONTAINER} pt-20 pb-14 sm:pt-24 sm:pb-16 lg:pt-28 lg:pb-20 xl:pt-32 xl:pb-24`}>
+      <div className={`relative z-10 ${CONTAINER} pt-16 pb-10 sm:pt-24 sm:pb-16 lg:pt-28 lg:pb-20 xl:pt-32 xl:pb-24`}>
         <div className="grid gap-5 sm:gap-6 lg:grid-cols-2 lg:gap-10 xl:gap-14 lg:items-start">
           {/* Copy — top */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-1 lg:col-start-1 lg:row-start-1">
-            <div className="inline-flex items-center gap-2 mb-5 rounded-full border border-[var(--home-border)] bg-[var(--home-surface)]/90 px-3.5 py-1 backdrop-blur-sm">
-              <GithubIcon className="h-3.5 w-3.5 text-[var(--home-muted)]" />
-              <span className="text-[11px] font-medium text-[var(--home-muted)] tracking-wide">
+            <div className="inline-flex items-center gap-2 mb-5 rounded-full border border-(--home-border) bg-(--home-surface)/90 px-3.5 py-1 backdrop-blur-sm">
+              <GithubIcon className="h-3.5 w-3.5 text-(--home-muted)" />
+              <span className="text-[11px] font-medium text-(--home-muted) tracking-wide">
                 Developer portfolio generator
               </span>
             </div>
@@ -69,7 +71,7 @@ export default function HomeHero({
           </div>
 
           {/* Visual — mobile: after subtitle; tablet: after trust; desktop: right column */}
-          <div className="order-2 md:order-4 lg:order-none lg:col-start-2 lg:row-start-1 lg:self-start lg:-mt-1 w-full flex justify-center lg:justify-end">
+          <div className="order-2 md:order-4 lg:order-0 lg:col-start-2 lg:row-start-1 lg:self-start lg:-mt-1 w-full flex justify-center lg:justify-end">
             <HeroTransformVisual compact />
           </div>
 
@@ -85,15 +87,20 @@ export default function HomeHero({
                   <label htmlFor="github-username" className="sr-only">
                     GitHub username
                   </label>
-                  <GithubIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--home-subtle)]" />
+                  <GithubIcon className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-(--home-subtle)" />
                   <input
+                    ref={inputRef}
                     id="github-username"
                     type="text"
                     value={username}
                     onChange={e => onUsernameChange(e.target.value)}
+                    onFocus={e => e.currentTarget.select()}
                     placeholder="GitHub username"
                     disabled={loading}
                     autoComplete="off"
+                    enterKeyHint="go"
+                    aria-describedby="github-username-hint"
+                    aria-keyshortcuts="/"
                     spellCheck={false}
                     className="home-input home-input-compact"
                   />
@@ -101,24 +108,32 @@ export default function HomeHero({
                 <button
                   type="submit"
                   disabled={!username.trim() || loading}
+                  aria-busy={loading}
                   className="home-btn-primary home-btn-primary-lg h-11 min-w-[152px] shrink-0"
                 >
                   {loading ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-                      Generating
+                      Generating portfolio...
                     </>
                   ) : (
                     "Generate Portfolio"
                   )}
                 </button>
               </div>
+              <p
+                id="github-username-hint"
+                className="mt-2 text-xs text-(--home-subtle)"
+                aria-live="polite"
+              >
+                Press Enter to generate. Press / anytime to focus this field.
+              </p>
             </form>
 
             <ul className="home-trust-badges w-full max-w-lg mb-4">
               {TRUST_BADGES.map(badge => (
                 <li key={badge} className="home-trust-badge">
-                  <Check className="h-2.5 w-2.5 text-[var(--home-success)] shrink-0" aria-hidden />
+                  <Check className="h-2.5 w-2.5 text-(--home-success) shrink-0" aria-hidden />
                   {badge}
                 </li>
               ))}
@@ -128,15 +143,15 @@ export default function HomeHero({
               <button
                 type="button"
                 onClick={onViewExamples}
-                className="home-link inline-flex items-center gap-1.5 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] rounded"
+                className="home-link inline-flex min-h-11 items-center gap-1.5 rounded text-sm font-medium"
               >
                 View Example Portfolio
                 <ArrowDown className="h-3.5 w-3.5" aria-hidden />
               </button>
-              <span className="hidden sm:inline text-[var(--home-border)]" aria-hidden>
+              <span className="hidden sm:inline text-(--home-border)" aria-hidden>
                 ·
               </span>
-              <p className="text-sm text-[var(--home-subtle)]">
+              <p className="text-sm text-(--home-subtle)">
                 Try{" "}
                 {EXAMPLES.map((name, index) => (
                   <span key={name}>
@@ -145,7 +160,7 @@ export default function HomeHero({
                       type="button"
                       onClick={() => onExampleClick(name)}
                       disabled={loading}
-                      className="home-link underline underline-offset-2 decoration-[var(--home-border)] hover:decoration-[var(--home-primary)] disabled:cursor-not-allowed disabled:opacity-50 font-mono"
+                      className="home-link inline-flex min-h-11 items-center rounded underline underline-offset-2 decoration-(--home-border) hover:decoration-(--home-primary) disabled:cursor-not-allowed disabled:opacity-50 font-mono"
                     >
                       {name}
                     </button>

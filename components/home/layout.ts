@@ -13,8 +13,21 @@ export const CARD_HOVER_SUBTLE =
 
 export const IMAGE_HOVER = "home-image-hover";
 
+const HEADER_OFFSET = 88;
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function scrollToId(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const target = document.getElementById(id);
+  if (!target) return;
+
+  const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+  window.scrollTo({
+    top: Math.max(0, top),
+    behavior: prefersReducedMotion() ? "auto" : "smooth",
+  });
 }
 
 export function scrollToSection(id: string) {

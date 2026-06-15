@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { HomeThemeProvider } from "@/components/home/ThemeProvider";
 import Navbar from "@/components/home/Navbar";
 import HomeHero from "@/components/home/HomeHero";
@@ -14,10 +14,12 @@ import PortfolioShowcase from "@/components/home/PortfolioShowcase";
 import FeatureGrid from "@/components/home/FeatureGrid";
 import FinalCTA from "@/components/home/FinalCTA";
 import Footer from "@/components/home/Footer";
+import { scrollToSection } from "@/components/home/layout";
 
 export default function HomePage() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
+  const usernameInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   function handleSubmit(e: React.FormEvent) {
@@ -35,7 +37,25 @@ export default function HomePage() {
   }
 
   const handleViewExamples = useCallback(() => {
-    document.getElementById("showcase")?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection("showcase");
+  }, []);
+
+  useEffect(() => {
+    function handleShortcut(event: KeyboardEvent) {
+      const target = event.target;
+      const isEditable =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        (target instanceof HTMLElement && target.isContentEditable);
+
+      if (event.key === "/" && !isEditable && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        event.preventDefault();
+        usernameInputRef.current?.focus();
+      }
+    }
+
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
   }, []);
 
   return (
@@ -43,6 +63,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HomeHero
+          inputRef={usernameInputRef}
           username={username}
           loading={loading}
           onUsernameChange={setUsername}

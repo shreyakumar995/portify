@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="max-w-sm">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-lg font-semibold text-[var(--home-text)] hover:text-[var(--home-primary)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] rounded"
+              className="inline-flex min-h-11 items-center gap-2 rounded text-lg font-semibold text-[var(--home-text)] hover:text-[var(--home-primary)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)]"
             >
               <GithubIcon className="h-5 w-5" />
               Portify
@@ -37,7 +37,7 @@ export default function Footer() {
                   <Link
                     href={href}
                     {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="text-sm text-[var(--home-muted)] hover:text-[var(--home-text)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)] rounded py-1"
+                    className="flex min-h-11 items-center rounded text-sm text-[var(--home-muted)] hover:text-[var(--home-text)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)]"
                   >
                     {label}
                   </Link>
