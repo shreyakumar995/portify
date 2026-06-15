@@ -49,7 +49,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-[var(--home-border-subtle)]">
           <p className="text-xs text-[var(--home-subtle)]">
-            © {new Date().getFullYear()} Portify. Open source on{" "}
+            © {new Date().getFullYear()} Portify, By Shreya Kumar with ❤️ Open source on{" "}
             <Link
               href={REPO_URL}
               target="_blank"

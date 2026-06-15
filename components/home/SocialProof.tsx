@@ -14,35 +14,35 @@ const PROOF_ITEMS = [
 
 export default function SocialProof() {
   return (
-    <section aria-label="Social proof" className={`${SECTION_BORDER} bg-[var(--home-bg)]`}>
+    <section aria-label="Social proof" className={`${SECTION_BORDER} bg-(--home-bg)`}>
       <div className={`${CONTAINER} py-12 sm:py-16 lg:py-20`}>
         <div className="flex flex-col items-center gap-8 sm:gap-10">
           <Link
             href={REPO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--home-border)] bg-[var(--home-surface)] px-4 py-2 text-sm text-[var(--home-text)] hover:border-[var(--home-border-hover)] transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--home-primary)]"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full border border-(--home-border) bg-(--home-surface) px-4 py-2 text-sm text-(--home-text) hover:border-(--home-border-hover) transition-colors duration-200"
           >
             <Star className="h-4 w-4 text-[#f0c040]" aria-hidden />
             <span>Open Source Project</span>
-            <Heart className="h-3.5 w-3.5 text-[var(--home-success)]" aria-hidden />
+            <Heart className="h-3.5 w-3.5 text-(--home-success)" aria-hidden />
           </Link>
 
           <ul className="grid w-full grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {PROOF_ITEMS.map(({ icon: Icon, label, desc, custom }) => (
               <li
                 key={label}
-                className="flex flex-col items-center text-center rounded-xl border border-[var(--home-border)] bg-[var(--home-surface)] px-4 py-5 transition-all duration-300 hover:border-[var(--home-border-hover)] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[var(--home-shadow)]"
+                className="flex flex-col items-center text-center rounded-xl border border-(--home-border) bg-(--home-surface) px-4 py-5 transition-transform duration-200 hover:border-(--home-border-hover) hover:-translate-y-0.5"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--home-elevated)] text-[var(--home-primary)] mb-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-(--home-elevated) text-(--home-primary) mb-3">
                   {custom ? (
                     <GithubIcon className="h-4 w-4" />
                   ) : (
                     Icon && <Icon className="h-4 w-4" aria-hidden />
                   )}
                 </span>
-                <p className="text-sm font-semibold text-[var(--home-text)] mb-1">{label}</p>
-                <p className="text-xs text-[var(--home-muted)]">{desc}</p>
+                <p className="text-sm font-semibold text-(--home-text) mb-1">{label}</p>
+                <p className="text-xs text-(--home-muted)">{desc}</p>
               </li>
             ))}
           </ul>

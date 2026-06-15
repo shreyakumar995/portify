@@ -58,7 +58,7 @@ export default function PortfolioShowcase() {
                   sizes="(max-width: 1024px) 100vw, 58vw"
                   priority
                 />
-                <div className="absolute top-4 left-4 rounded-full border border-(--home-border) bg-(--home-bg)/90 backdrop-blur-sm px-3 py-1">
+                <div className="absolute top-4 left-4 rounded-full border border-(--home-border) bg-(--home-bg)/95 px-3 py-1">
                   <span className="text-[11px] font-medium uppercase tracking-wider text-(--home-success)">
                     Featured
                   </span>

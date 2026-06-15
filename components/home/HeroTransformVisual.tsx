@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { ArrowDown } from "lucide-react";
 import GithubIcon from "./GithubIcon";
 
@@ -9,19 +6,8 @@ type Props = {
 };
 
 export default function HeroTransformVisual({ compact = false }: Props) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 150);
-    return () => clearTimeout(t);
-  }, []);
-
   return (
-    <div
-      className={`w-full max-w-[340px] sm:max-w-md mx-auto lg:max-w-none transition-all duration-500 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      }`}
-    >
+    <div className="home-hero-visual-enter w-full max-w-[340px] sm:max-w-md mx-auto lg:max-w-none">
       <div className={`home-card home-card-featured ${compact ? "p-3 sm:p-4" : "p-4 sm:p-5"}`}>
         <div className="rounded-lg border border-[var(--home-border)] bg-[var(--home-bg)] p-3 sm:p-3.5">
           <div className="flex items-center gap-2 mb-2.5 pb-2.5 border-b border-[var(--home-border-subtle)]">

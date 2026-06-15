@@ -121,7 +121,7 @@ export default function Navbar() {
             ref={menuButtonRef}
             type="button"
             onClick={() => setMobileOpen(v => !v)}
-            className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-(--home-border) bg-(--home-surface) text-(--home-text) shadow-(--home-elevation-2) hover:border-(--home-border-hover) transition-all duration-200"
+            className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-(--home-border) bg-(--home-surface) text-(--home-text) shadow-(--home-elevation-2) hover:border-(--home-border-hover) transition-colors duration-200"
             aria-expanded={mobileOpen}
             aria-controls="mobile-nav"
             aria-haspopup="true"

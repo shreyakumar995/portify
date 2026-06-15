@@ -28,23 +28,23 @@ function StatsVisual() {
         <span className="bg-[#F7DF1E]" style={{ width: "35%" }} />
         <span className="bg-[#3572A5]" style={{ width: "25%" }} />
       </div>
-      <div className="grid grid-cols-7 gap-1">
-        {Array.from({ length: 28 }).map((_, i) => (
-          <span
-            key={i}
-            className="aspect-square rounded-[2px]"
-            style={{
-              backgroundColor: [
-                "var(--home-contrib-empty)",
-                "var(--home-contrib-1)",
-                "var(--home-contrib-2)",
-                "var(--home-contrib-3)",
-                "var(--home-contrib-4)",
-              ][i % 5],
-            }}
-          />
-        ))}
-      </div>
+      <svg
+        className="h-14 w-full"
+        viewBox="0 0 280 56"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <pattern id="home-mini-contribution-pattern" width="40" height="28" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="12" height="12" rx="2" fill="var(--home-contrib-empty)" />
+            <rect x="18" y="0" width="12" height="12" rx="2" fill="var(--home-contrib-2)" />
+            <rect x="36" y="0" width="12" height="12" rx="2" fill="var(--home-contrib-1)" />
+            <rect x="0" y="18" width="12" height="12" rx="2" fill="var(--home-contrib-3)" />
+            <rect x="18" y="18" width="12" height="12" rx="2" fill="var(--home-contrib-empty)" />
+            <rect x="36" y="18" width="12" height="12" rx="2" fill="var(--home-contrib-4)" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#home-mini-contribution-pattern)" />
+      </svg>
     </div>
   );
 }

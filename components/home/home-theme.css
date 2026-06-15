@@ -201,7 +201,7 @@
   color: var(--home-on-success);
   background-color: var(--home-success-bg);
   min-height: 2.75rem;
-  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .home-btn-primary:hover:not(:disabled) {
@@ -270,12 +270,11 @@
   box-shadow: var(--home-elevation-3);
   transition:
     border-color 0.25s ease,
-    box-shadow 0.25s ease,
     transform 0.25s ease;
 }
 
 .home-root :where(a, button, input, .home-card, .home-nav-glass, .home-trust-badge) {
-  transition-property: background-color, border-color, box-shadow, color, opacity, transform;
+  transition-property: background-color, border-color, color, opacity, transform;
   transition-duration: 0.2s;
   transition-timing-function: ease;
 }
@@ -300,16 +299,7 @@
 
 .home-card-interactive:hover {
   border-color: var(--home-border-hover);
-  box-shadow: var(--home-elevation-3-hover);
   transform: translateY(-1px) scale(1.01);
-}
-
-.home-card-featured.home-card-interactive:hover {
-  box-shadow: var(--home-elevation-4-hover);
-}
-
-.home-card-supporting.home-card-interactive:hover {
-  box-shadow: var(--home-elevation-3-hover);
 }
 
 .home-link {
@@ -473,6 +463,22 @@
 .home-input-compact {
   padding-top: 0.625rem;
   padding-bottom: 0.625rem;
+}
+
+.home-hero-visual-enter {
+  animation: home-hero-visual-in 0.5s ease-out 0.15s both;
+}
+
+@keyframes home-hero-visual-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .home-image-hover {

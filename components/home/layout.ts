@@ -9,7 +9,7 @@ export const CARD_FEATURED = "home-card home-card-featured home-card-interactive
 export const CARD_SUPPORTING = "home-card home-card-supporting home-card-interactive";
 
 export const CARD_HOVER_SUBTLE =
-  "home-card home-card-supporting transition-all duration-250 ease-out hover:border-[var(--home-border-hover)] hover:shadow-[var(--home-elevation-3-hover)] hover:-translate-y-px hover:scale-[1.01]";
+  "home-card home-card-supporting transition-transform duration-200 ease-out hover:border-(--home-border-hover) hover:-translate-y-px hover:scale-[1.01]";
 
 export const IMAGE_HOVER = "home-image-hover";
 
