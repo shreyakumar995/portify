@@ -9,12 +9,25 @@ export const CARD_FEATURED = "home-card home-card-featured home-card-interactive
 export const CARD_SUPPORTING = "home-card home-card-supporting home-card-interactive";
 
 export const CARD_HOVER_SUBTLE =
-  "home-card home-card-supporting transition-all duration-250 ease-out hover:border-[var(--home-border-hover)] hover:shadow-[var(--home-elevation-3-hover)] hover:-translate-y-px hover:scale-[1.01]";
+  "home-card home-card-supporting transition-transform duration-200 ease-out hover:border-(--home-border-hover) hover:-translate-y-px hover:scale-[1.01]";
 
 export const IMAGE_HOVER = "home-image-hover";
 
+const HEADER_OFFSET = 88;
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function scrollToId(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const target = document.getElementById(id);
+  if (!target) return;
+
+  const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+  window.scrollTo({
+    top: Math.max(0, top),
+    behavior: prefersReducedMotion() ? "auto" : "smooth",
+  });
 }
 
 export function scrollToSection(id: string) {

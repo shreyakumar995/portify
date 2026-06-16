@@ -1,29 +1,31 @@
 export default function ContributionGrid() {
-  const levels = [
-    "var(--home-contrib-empty)",
-    "var(--home-contrib-1)",
-    "var(--home-contrib-2)",
-    "var(--home-contrib-3)",
-    "var(--home-contrib-4)",
-  ];
-
   return (
     <div
       className="absolute inset-0 overflow-hidden opacity-[0.3] pointer-events-none"
       aria-hidden
     >
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="grid grid-cols-[repeat(26,minmax(0,1fr))] gap-[3px] p-8 rotate-[-8deg] scale-110">
-          {Array.from({ length: 26 * 7 }).map((_, i) => (
-            <div
-              key={i}
-              className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-[2px]"
-              style={{ backgroundColor: levels[(i * 7 + 3) % levels.length] }}
-            />
-          ))}
-        </div>
+        <svg
+          className="h-[180px] w-[680px] rotate-[-8deg] scale-110 sm:h-[220px] sm:w-[820px]"
+          viewBox="0 0 680 180"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <defs>
+            <pattern id="home-contribution-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="10" height="10" rx="2" fill="var(--home-contrib-empty)" />
+              <rect x="16" y="0" width="10" height="10" rx="2" fill="var(--home-contrib-2)" />
+              <rect x="32" y="0" width="10" height="10" rx="2" fill="var(--home-contrib-1)" />
+              <rect x="8" y="16" width="10" height="10" rx="2" fill="var(--home-contrib-4)" />
+              <rect x="24" y="16" width="10" height="10" rx="2" fill="var(--home-contrib-empty)" />
+              <rect x="0" y="32" width="10" height="10" rx="2" fill="var(--home-contrib-3)" />
+              <rect x="16" y="32" width="10" height="10" rx="2" fill="var(--home-contrib-empty)" />
+              <rect x="32" y="32" width="10" height="10" rx="2" fill="var(--home-contrib-2)" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#home-contribution-pattern)" />
+        </svg>
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--home-bg)] via-[var(--home-bg)]/80 to-[var(--home-bg)]" />
+      <div className="absolute inset-0 bg-linear-to-b from-(--home-bg) via-(--home-bg)/80 to-(--home-bg)" />
     </div>
   );
 }
