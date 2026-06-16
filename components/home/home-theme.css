@@ -9,7 +9,7 @@
   --home-border-hover: #484f58;
   --home-text: #f0f6fc;
   --home-muted: #8b949e;
-  --home-subtle: #484f58;
+  --home-subtle: #7d8590;
   --home-primary: #58a6ff;
   --home-primary-hover: #79c0ff;
   --home-success: #3fb950;
@@ -42,6 +42,8 @@
   color: var(--home-muted);
   background-color: var(--home-bg);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  overflow-x: clip;
+  transition: background-color 0.24s ease, color 0.24s ease;
 }
 
 .home-root[data-home-theme="light"] {
@@ -53,7 +55,7 @@
   --home-border-hover: #afb8c1;
   --home-text: #24292f;
   --home-muted: #57606a;
-  --home-subtle: #8c959f;
+  --home-subtle: #6e7781;
   --home-primary: #0969da;
   --home-primary-hover: #0550ae;
   --home-success: #1a7f37;
@@ -92,7 +94,7 @@
   --home-border-hover: #a78bfa;
   --home-text: #130f2e;
   --home-muted: #433f5c;
-  --home-subtle: #6b6585;
+  --home-subtle: #5b5670;
   --home-primary: #6d28d9;
   --home-primary-hover: #5b21b6;
   --home-success: #6d28d9;
@@ -198,7 +200,8 @@
   font-weight: 500;
   color: var(--home-on-success);
   background-color: var(--home-success-bg);
-  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  min-height: 2.75rem;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .home-btn-primary:hover:not(:disabled) {
@@ -234,6 +237,7 @@
 
 .home-input {
   width: 100%;
+  min-height: 2.75rem;
   border-radius: 0.5rem;
   border: 1px solid var(--home-border);
   background-color: var(--home-input-bg);
@@ -266,8 +270,18 @@
   box-shadow: var(--home-elevation-3);
   transition:
     border-color 0.25s ease,
-    box-shadow 0.25s ease,
     transform 0.25s ease;
+}
+
+.home-root :where(a, button, input, .home-card, .home-nav-glass, .home-trust-badge) {
+  transition-property: background-color, border-color, color, opacity, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+.home-root :where(a, button, input):focus-visible {
+  outline: 2px solid var(--home-primary);
+  outline-offset: 2px;
 }
 
 .home-card-featured {
@@ -285,16 +299,7 @@
 
 .home-card-interactive:hover {
   border-color: var(--home-border-hover);
-  box-shadow: var(--home-elevation-3-hover);
   transform: translateY(-1px) scale(1.01);
-}
-
-.home-card-featured.home-card-interactive:hover {
-  box-shadow: var(--home-elevation-4-hover);
-}
-
-.home-card-supporting.home-card-interactive:hover {
-  box-shadow: var(--home-elevation-3-hover);
 }
 
 .home-link {
@@ -322,6 +327,9 @@
 
 .home-nav-link {
   position: relative;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   border-radius: 0.5rem;
@@ -418,15 +426,14 @@
 }
 
 .home-trust-badges {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.375rem;
 }
 
 @media (min-width: 640px) {
   .home-trust-badges {
-    display: flex;
-    flex-wrap: wrap;
     gap: 0.375rem;
   }
 }
@@ -435,6 +442,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
+  min-width: 0;
   border-radius: 9999px;
   border: 1px solid var(--home-border-subtle);
   background: color-mix(in srgb, var(--home-surface) 85%, transparent);
@@ -442,6 +450,7 @@
   font-size: 0.6875rem;
   line-height: 1.25;
   color: var(--home-muted);
+  text-align: left;
 }
 
 @media (min-width: 640px) {
@@ -456,10 +465,49 @@
   padding-bottom: 0.625rem;
 }
 
+.home-hero-visual-enter {
+  animation: home-hero-visual-in 0.5s ease-out 0.15s both;
+}
+
+@keyframes home-hero-visual-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .home-image-hover {
   transition: transform 0.45s ease, opacity 0.45s ease;
 }
 
 .group:hover .home-image-hover {
   transform: scale(1.01);
+}
+
+@media (min-width: 1024px) {
+  .home-trust-badges {
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-root,
+  .home-root *,
+  .home-root *::before,
+  .home-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .home-card-interactive:hover,
+  .group:hover .home-image-hover {
+    transform: none;
+  }
 }
