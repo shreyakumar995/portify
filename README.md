@@ -1,36 +1,178 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portify
 
-## Getting Started
+Turn any public GitHub profile into a polished developer portfolio in seconds.
 
-First, run the development server:
+**[Live demo](https://portify-git.vercel.app)** · **[GitHub](https://github.com/shreyakumar995/portify)**
+
+Portify pulls live data from GitHub — repositories, languages, topics, and profile stats — and renders a shareable portfolio page. No sign-up, no manual data entry.
+
+---
+
+## Features
+
+- **Instant portfolio generation** — Enter a GitHub username and get a full portfolio at `/u/username`
+- **GitHub-powered analytics** — Repo counts, followers, language breakdown, and top projects
+- **Skills & topics** — Aggregated from repository topics across public repos
+- **Theme switching** — Dark, Light, and Aurora themes (synced across homepage and portfolio)
+- **PDF export** — Print or save your portfolio as a PDF from the portfolio page
+- **QR code in PDF** — Each portfolio includes a scannable QR code embedded in the exported PDF
+- **Responsive design** — Optimized for mobile, tablet, and desktop
+- **Open source** — No account required to generate a portfolio
+
+---
+
+## How it works
+
+1. **Analyze** — Fetch public profile and repository data from the GitHub API
+2. **Extract** — Rank top repos, compute language stats, and collect skill topics
+3. **Generate** — Render a portfolio page with hero, stats, projects, and skills
+
+---
+
+## Tech stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
+| UI | [React 19](https://react.dev/), [Tailwind CSS 4](https://tailwindcss.com/) |
+| Language | TypeScript |
+| Icons | [Lucide React](https://lucide.dev/) |
+| QR codes | [qrcode.react](https://www.npmjs.com/package/qrcode.react) |
+| Data | GitHub REST API |
+
+---
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 20+
+- npm (or pnpm / yarn)
+- A [GitHub personal access token](https://github.com/settings/tokens) (recommended for higher API rate limits)
+
+### Installation
+
+```bash
+git clone https://github.com/shreyakumar995/portify.git
+cd portify
+npm install
+```
+
+### Environment variables
+
+Create a `.env.local` file in the project root:
+
+```env
+# Required for reliable GitHub API access (avoids low unauthenticated rate limits)
+GITHUB_TOKEN=ghp_your_token_here
+
+# Public site URL — used for QR codes and share links in production
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
+```
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GITHUB_TOKEN` | Recommended | GitHub PAT with `public_repo` (or no scopes for public data only) |
+| `NEXT_PUBLIC_BASE_URL` | Production | Your deployed origin, e.g. `https://portify-git.vercel.app` |
+
+### Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000), enter a GitHub username, and click **Generate Portfolio**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+portify/
+├── app/
+│   ├── page.tsx                 # Homepage
+│   ├── layout.tsx               # Root layout & fonts
+│   └── u/[username]/
+│       ├── page.tsx             # Generated portfolio page
+│       ├── layout.tsx           # Portfolio theme wrapper
+│       └── loading.tsx          # Loading skeleton
+├── components/
+│   ├── home/                    # Homepage sections & theme
+│   ├── HeroSection.tsx          # Portfolio hero
+│   ├── ProjectsGrid.tsx         # Top repositories
+│   ├── LanguageBar.tsx          # Language breakdown
+│   ├── TopicBar.tsx             # Skills & technologies
+│   ├── QrCodeCard.tsx           # QR code component
+│   └── portfolioshell.tsx       # Portfolio page shell
+├── lib/
+│   ├── github.ts                # GitHub API & data helpers
+│   ├── site.ts                  # Site URL & portfolio link helpers
+│   └── themes.ts                # Legacy theme tokens
+└── types/
+    └── github.ts                # GitHub API types
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Routes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page with portfolio generator |
+| `/u/[username]` | Generated developer portfolio |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Example:** [portify-git.vercel.app/u/sindresorhus](https://portify-git.vercel.app/u/sindresorhus)
+
+---
+
+## Deployment
+
+Portify works well on [Vercel](https://vercel.com), [Render](https://render.com), or any Node.js host that supports Next.js.
+
+1. Push the repo to GitHub
+2. Connect the repository to your hosting provider
+3. Set `GITHUB_TOKEN` and `NEXT_PUBLIC_BASE_URL` in environment variables
+4. Deploy
+
+On Render, bind the web service to `0.0.0.0:$PORT` per platform requirements.
+
+---
+
+## PDF export
+
+On any portfolio page (`/u/username`):
+
+1. Click **PDF** in the top navigation
+2. Use your browser’s print dialog to save as PDF
+
+The exported PDF includes a QR code at the bottom that links back to the live portfolio URL.
+
+---
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm start` | Run production server |
+| `npm run lint` | Run ESLint |
+
+---
+
+## Contributing
+
+Contributions are welcome. Feel free to open an issue or submit a pull request on [GitHub](https://github.com/shreyakumar995/portify).
+
+---
+
+## License
+
+Open source. See the repository for license details.
